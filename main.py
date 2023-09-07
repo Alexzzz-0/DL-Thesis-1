@@ -3,10 +3,16 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.model_selection import train_test_split
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras import layers,models
-from tensorflow.python.keras.layers import Dense, Flatten
-from tensorflow.python.keras.losses import SparseCategoricalCrossentropy
+
+#from tensorflow.python.keras import layers,models
+from tensorflow import keras
+from keras import layers,models
+import tensorflow as tf
+
+# import tensorflow.python as tf
+# from tensorflow.python.keras.models import Sequential
+# from tensorflow.python.keras.layers import Dense, Flatten
+# from tensorflow.python.keras.losses import SparseCategoricalCrossentropy
 
 #get the dataset
 def load_data():
@@ -69,7 +75,8 @@ def trian_model(X_trian, y_train):
     model.add(layers.Dense(64, activation='relu'))
     model.add(layers.Dense(1, activation='sigmoid'))
 
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    opt = keras.optimizers.Adam(learning_rate=0.001)
+    model.compile(optimizer=opt, loss='binary_crossentropy', metrics=['accuracy'])
 
     model.fit(X_trian, y_train, epochs=5, batch_size=2)
 
@@ -127,7 +134,8 @@ def visualize(model,):
     y_pred = model.predict(BBQ_array)
     print(y_pred)
 
-
+def save_model(model):
+    tf.saved_model.save(model,"saved/1")
 
 
 def main():
@@ -136,6 +144,7 @@ def main():
     model = trian_model(X_train,y_train)
     #evaluate_model(model,X_test,y_test)
     visualize(model)
+    #save_model(model)
 
 if __name__ == "__main__":
     main()
