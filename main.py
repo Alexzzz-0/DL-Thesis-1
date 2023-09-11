@@ -51,7 +51,7 @@ def load_data():
 
 #split the dataset for training
 def split_data(imgs, labels):
-    X_train, X_test, y_trian, y_test = train_test_split(imgs,labels,test_size=0.1,random_state=58)
+    X_train, X_test, y_trian, y_test = train_test_split(imgs,labels,test_size=0.1,random_state=12)
 
     return X_train, X_test, y_trian, y_test
 
@@ -75,7 +75,7 @@ def trian_model(X_trian, y_train):
     model.add(layers.Dense(64, activation='relu'))
     model.add(layers.Dense(1, activation='sigmoid'))
 
-    opt = keras.optimizers.Adam(learning_rate=0.001)
+    opt = keras.optimizers.Adam(learning_rate=0.0002)
     model.compile(optimizer=opt, loss='binary_crossentropy', metrics=['accuracy'])
 
     model.fit(X_trian, y_train, epochs=5, batch_size=2)
@@ -99,12 +99,6 @@ def visualize(model,):
     # #get the emotion we need
     # happy_img = cv.imread(r'C:\AlexZheng\emotion\happy.PNG', 1)
     # angry_img = cv.imread(r'C:\AlexZheng\emotion\angry.png', 1)
-    #
-    # #get the image of BBQ soup
-    # img_BBQsoup = cv.imread('C:\AlexZheng\imshow\9_000.png', 1)
-    # img_list = []
-    # img_list.append(img_BBQsoup)
-    # img_array = np.asarray(img_list)
     #
     # # get the data of emotion we need
     # y_pred = model.predict(img_array)
@@ -132,7 +126,111 @@ def visualize(model,):
     BBQ_array = np.asarray(BBQ_list)
 
     y_pred = model.predict(BBQ_array)
+
+    y_pred_float = np.asarray(y_pred,dtype=float)
+
     print(y_pred)
+
+    # # #get the emotion image we need
+    # happy_img = cv.imread(r'C:\AlexZheng\emotion\happy.PNG', 1)
+    # angry_img = cv.imread(r'C:\AlexZheng\emotion\angry.png', 1)
+    #
+    # #显示所有的测试图片
+    # fig = plt.figure(figsize=(10, 5))
+    #
+    # rows = 2
+    # columns = 6
+    #
+    # fig.add_subplot(rows, columns, 1)
+    # plt.imshow(BBQ_list[0])
+    # plt.axis('off')
+    # plt.title("Sword")
+    #
+    # fig.add_subplot(rows, columns, 2)
+    # plt.imshow(BBQ_list[1])
+    # plt.axis('off')
+    # plt.title("Soup")
+    #
+    # fig.add_subplot(rows, columns, 3)
+    # plt.imshow(BBQ_list[2])
+    # plt.axis('off')
+    # plt.title("First")
+    #
+    # fig.add_subplot(rows, columns, 4)
+    # plt.imshow(BBQ_list[3])
+    # plt.axis('off')
+    # plt.title("Second")
+    #
+    # fig.add_subplot(rows, columns, 5)
+    # plt.imshow(BBQ_list[4])
+    # plt.axis('off')
+    # plt.title("Third")
+    #
+    # fig.add_subplot(rows, columns, 6)
+    # plt.imshow(BBQ_list[5])
+    # plt.axis('off')
+    # plt.title("Forth")
+    #
+    # #结束显示测试的图片
+    # #开始表情图片
+    #
+    # fig.add_subplot(rows, columns, 7)
+    # angry = y_pred_float[0]
+    # happy = 1 - angry
+    # img_blend = happy_img * happy + angry_img * angry
+    # img_int = np.asarray(img_blend,dtype=int)
+    # plt.imshow(img_int)
+    # plt.axis('off')
+    # plt.title(f"Angry:{angry}\nHappy:{happy}")
+    #
+    # fig.add_subplot(rows, columns, 8)
+    # angry = y_pred_float[0]
+    # happy = 1 - angry
+    # img_blend = happy_img * happy + angry_img * angry
+    # img_int = np.asarray(img_blend, dtype=int)
+    # plt.imshow(img_int)
+    # plt.axis('off')
+    # plt.title(f"Angry:{angry}\nHappy:{happy}")
+    #
+    # fig.add_subplot(rows, columns, 9)
+    # angry = y_pred_float[0]
+    # happy = 1 - angry
+    # img_blend = happy_img * happy + angry_img * angry
+    # img_int = np.asarray(img_blend, dtype=int)
+    # plt.imshow(img_int)
+    # plt.axis('off')
+    # plt.title(f"Angry:{angry}\nHappy:{happy}")
+    #
+    # fig.add_subplot(rows, columns, 10)
+    # angry = y_pred_float[0]
+    # happy = 1 - angry
+    # img_blend = happy_img * happy + angry_img * angry
+    # img_int = np.asarray(img_blend, dtype=int)
+    # plt.imshow(img_int)
+    # plt.axis('off')
+    # plt.title(f"Angry:{angry}\nHappy:{happy}")
+    #
+    # fig.add_subplot(rows, columns, 11)
+    # angry = y_pred_float[0]
+    # happy = 1 - angry
+    # img_blend = happy_img * happy + angry_img * angry
+    # img_int = np.asarray(img_blend, dtype=int)
+    # plt.imshow(img_int)
+    # plt.axis('off')
+    # plt.title(f"Angry:{angry}\nHappy:{happy}")
+    #
+    # fig.add_subplot(rows, columns, 12)
+    # angry = y_pred_float[0]
+    # happy = 1 - angry
+    # img_blend = happy_img * happy + angry_img * angry
+    # img_int = np.asarray(img_blend, dtype=int)
+    # plt.imshow(img_int)
+    # plt.axis('off')
+    # plt.title(f"Angry:{angry}\nHappy:{happy}")
+    #
+    # #结束表情显示
+    #
+    # plt.show()
 
 def save_model(model):
     tf.saved_model.save(model,"saved/1")
